@@ -1,0 +1,133 @@
+{
+  "name": "kimi-output-reader",
+  "displayName": "Kimi Code Output Reader",
+  "description": "Read and inspect Kimi Code output logs inside VS Code:.",
+  "version": "0.1.0",
+  "publisher": "lneoi-li",
+  "license": "MIT",
+  "icon": "assets/icon.png",
+  "repository": {
+    "type": "git",
+    "url": "https://gitee.com/lneoi-550W/kimi-code-log.git"
+  },
+  "engines": {
+    "vscode": "^1.90.0"
+  },
+  "categories": [
+    "Other",
+    "Debuggers"
+  ],
+  "keywords": [
+    "kimi",
+    "kimi-code",
+    "log",
+    "output"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "kimiOutputReader.showPanel",
+        "title": "显示 Kimi 输出面板",
+        "category": "Kimi Output",
+        "icon": "$(output)"
+      },
+      {
+        "command": "kimiOutputReader.refresh",
+        "title": "刷新会话",
+        "category": "Kimi Output",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "kimiOutputReader.openLog",
+        "title": "在面板中打开日志",
+        "category": "Kimi Output",
+        "icon": "$(open-preview)"
+      },
+      {
+        "command": "kimiOutputReader.showDailyUsage",
+        "title": "显示每日用量",
+        "category": "Kimi Output",
+        "icon": "$(graph)"
+      },
+      {
+        "command": "kimiOutputReader.clearStoredUsage",
+        "title": "清空本地用量统计",
+        "category": "Kimi Output",
+        "icon": "$(trash)"
+      }
+    ],
+    "configuration": {
+      "title": "Kimi Code Output Reader",
+      "properties": {
+        "kimiOutputReader.logsDir": {
+          "type": "string",
+          "default": "",
+          "description": "Kimi Code 日志目录（留空则自动探测 %APPDATA%\\Code\\logs）"
+        }
+      }
+    },
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "kimiOutputReader",
+          "title": "Kimi 输出",
+          "icon": "$(output)"
+        }
+      ]
+    },
+    "views": {
+      "kimiOutputReader": [
+        {
+          "id": "kimiOutputReader.sessions",
+          "name": "会话",
+          "when": "true"
+        }
+      ]
+    },
+    "menus": {
+      "view/title": [
+        {
+          "command": "kimiOutputReader.refresh",
+          "when": "view == kimiOutputReader.sessions",
+          "group": "navigation@1"
+        },
+        {
+          "command": "kimiOutputReader.showPanel",
+          "when": "view == kimiOutputReader.sessions",
+          "group": "navigation@2"
+        },
+        {
+          "command": "kimiOutputReader.showDailyUsage",
+          "when": "view == kimiOutputReader.sessions",
+          "group": "navigation@3"
+        },
+        {
+          "command": "kimiOutputReader.clearStoredUsage",
+          "when": "view == kimiOutputReader.sessions",
+          "group": "navigation@4"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "kimiOutputReader.openLog",
+          "when": "viewItem == logSession",
+          "group": "inline"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/vscode": "^1.90.0",
+    "typescript": "^5.4.0"
+  }
+}
